@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A custom Helm chart for jenkins
+name: jenkins-chart
+version: 1.0

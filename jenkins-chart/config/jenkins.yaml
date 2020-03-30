@@ -1,0 +1,29 @@
+jenkins:
+  systemMessage: {{ .Values.systemMessage | quote }}
+
+jobs:
+  - script: >
+
+      freeStyleJob('{{ .Values.job.title }}') {
+          description({{ .Values.job.description | quote }})
+        {{ if .Values.job.pollScm }}
+          triggers {
+            scm({{ .Values.job.pollScm | quote }})
+          }
+        {{ end }}
+          scm {
+            git {
+              branch('{{ .branch | default "*/master" }}')
+              remote {
+                url('{{ .Values.job.repo }}')
+                credentials({{ .Values.job.credentialsId | quote }})
+              }
+            }
+          }
+          steps{
+            dsl {
+              removeAction({{ .Values.job.removeAction | quote}})
+              external({{ .Values.job.scriptLocation | quote}})
+            }
+          }
+        }
