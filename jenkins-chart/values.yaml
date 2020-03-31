@@ -8,15 +8,16 @@ jenkins:
     useSecurity: true
     adminUser: admin
     adminPassword: admin
-    cpu: "500m"
-    memory: "1024Mi"
+    resources:
+      requests:
+        cpu: "50m"
+        memory: "256Mi"
+      limits:
+        cpu: "500m"
+        memory: "1024Mi"
     servicePort: 8080
+    targetPort: 8080
     serviceType: LoadBalancer
-    containerPort: 8080
-    slaveListenerPort: 50000
-    cli: false
-    slaveListenerServiceType: ClusterIP
-    slaveListenerServiceAnnotations: {}
 
     installPlugins:
       - blueocean-bitbucket-pipeline
@@ -109,10 +110,9 @@ jenkins:
       - docker-commons
 
   agent:
-    enabled: true
-    image: docker.io/sergiomartins8/base-build
-    imageTag: 1.0
-    component: "jenkins-slave"
+    image: "docker.io/sergiomartins8/base-build"
+    tag: "1.0"
+    componentName: "jenkins-slave"
     privileged: false
     resources:
       requests:
