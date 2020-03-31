@@ -17,7 +17,8 @@ jenkins:
         memory: "1024Mi"
     servicePort: 8080
     targetPort: 8080
-    serviceType: LoadBalancer
+    nodePort: 32000
+    serviceType: NodePort
 
     installPlugins:
       - blueocean-bitbucket-pipeline
