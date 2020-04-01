@@ -1,47 +1,34 @@
-FROM docker:18.06.0-ce
+FROM jenkins/jnlp-slave:4.3-1
 
-ENV JAVA_ALPINE_VERSION 8.222.10-r0
-ENV NODE_VERSION 8.14.0-r0
+ENV DOCKER_VERSION=19.03.8 DOCKER_COMPOSE_VERSION=1.25.4 KUBECTL_VERSION=v1.18.0
 
-# Update packages
-RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.8/main' > /etc/apk/repositories \
-    && echo 'http://dl-cdn.alpinelinux.org/alpine/v3.8/community' >> /etc/apk/repositories \
-    && apk upgrade -U -a
+USER root
 
-# Install Java, Maven, Node, Curl, Git
-RUN { \
-        echo '#!/bin/sh'; \
-        echo 'set -e'; \
-        echo; \
-        echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
-    } > /usr/local/bin/docker-java-home \
-    && chmod +x /usr/local/bin/docker-java-home
-ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
-ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
-RUN set -x \
-    && apk update \
-    && apk add --no-cache \
-        openjdk8="$JAVA_ALPINE_VERSION" \
-        maven \
-        curl \
-        nodejs="$NODE_VERSION" \
-        yarn \
-        git \
-        python \
-        py-pip \
-        groff \
-        less \
-        mailcap \
-        chromium \
-        nss \
-    && [ "$JAVA_HOME" = "$(docker-java-home)" ]
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
+    make \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Install Kubectl
-RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-RUN chmod +x ./kubectl
-RUN mv ./kubectl /usr/local/bin/kubectl
+# Install docker
+RUN apt-get update && \
+    apt-get -y install apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    software-properties-common && \
+    curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && \
+    add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+    $(lsb_release -cs) \
+    stable" && \
+    apt-get update && \
+    apt-get -y install docker-ce
+RUN usermod -a -G docker jenkins
 
-# Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+# Install compose
+RUN curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose \
+    && chmod +x /usr/local/bin/docker-compose
 
-ENTRYPOINT ["/bin/sh"]
+# Install kubectl
+RUN curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl \
+    && chmod +x /usr/local/bin/kubectl

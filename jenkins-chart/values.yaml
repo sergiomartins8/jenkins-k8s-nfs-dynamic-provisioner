@@ -8,17 +8,19 @@ jenkins:
     useSecurity: true
     adminUser: admin
     adminPassword: admin
-    resources:
-      requests:
-        cpu: "50m"
-        memory: "256Mi"
-      limits:
-        cpu: "500m"
-        memory: "1024Mi"
     servicePort: 8080
     targetPort: 8080
     nodePort: 32000
     serviceType: NodePort
+
+    containerEnv:
+      # tell the plugin Jenkins Configuration as Code where to find its configs
+      - name: CASC_JENKINS_CONFIG
+        value: /var/jenkins_home/casc_configs/..data/jenkins.yaml
+
+    JCasC:
+      enabled: true
+      pluginVersion: "1.36"
 
     installPlugins:
       - blueocean-bitbucket-pipeline
@@ -114,35 +116,42 @@ jenkins:
     image: "docker.io/sergiomartins8/base-build"
     tag: "1.0"
     componentName: "jenkins-slave"
-    privileged: false
-    resources:
-      requests:
-        cpu: "512m"
-        memory: "512Mi"
-      limits:
-        cpu: "512m"
-        memory: "512Mi"
-    alwaysPullImage: false
     volumes:
       - type: PersistentVolume
         name: maven-repo
         mountPath: /home/jenkins/.m2/repository/
+        securityContext:
+          fsGroup: 1000
+          runAsUser: 1000
 
   persistence:
     storageClass: "managed-nfs-storage"
     accessMode: ReadWriteOnce
     size: 25Gi
+    volumes:
+      - name: casc-config
+        configMap:
+          name: jenkins-casc-config
+      - name: jenkins-secrets
+        secret:
+          secretName: jenkins-secrets
+    mounts:
+      - name: casc-config
+        mountPath: /var/jenkins_home/casc_configs
+        readOnly: true
 
   rbac:
     create: true
 
-custom:
-  systemMessage: "Jenkins configured automatically\nDo NOT change settings through the web!\n https://github.com/sergiomartins8/jenkins-kubernetes.git"
-  job:
-    title: seed-job
-    repo: git@github.com:sergiomartins8/jenkins-kubernetes.git
-    credentialsId: <<credentials_id>>
-    removeAction: 'IGNORE'
-    scriptLocation: '**/seedJob.groovy'
-    description: "In order to get past Jenkins security features, you will need to approve your script. Go to Manage Jenkins -> In-process Script Approval. In that screen, you will see the script that you are trying to execute. There should be an approve button that you'll need to click to approve that script."
+  overwriteJobs: true
 
+job:
+  title: seed-job
+  # repo for the seedJob
+  repo: git@github.com:sergiomartins8/jenkins-kubernetes.git
+  credentialsId: <<CREDENTIALS ID>>
+  removeAction: 'IGNORE'
+  scriptLocation: '**/seedJob.groovy'
+  description: "In order to get past Jenkins security features, you will need to approve your script. Go to Manage Jenkins -> In-process Script Approval. In that screen, you will see the script that you are trying to execute. There should be an approve button that you'll need to click to approve that script."
+
+systemMessage: "Jenkins configured automatically\nDo NOT change settings through the web!\n https://github.com/sergiomartins8/jenkins-kubernetes.git"
