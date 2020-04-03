@@ -44,9 +44,23 @@ $ helm upgrade --install --namespace jenkins jenkins-chart ./jenkins-chart
 #### Access Jenkins
 
 ```text
-http://kmaster.example.com:32000/login
+http://kmaster:32000/login
 ```
+
+> _admin/admin_ 🚨
+
+Add _Kubernetes Service Account_ credentials
+```text
+http://kmaster:32000/credentials/store/system/domain/_/newCredentials
+```
+
+Change _credentials_ to the secret text
+```text
+http://kmaster:32000/configureClouds/
+```
+
+_Test Connection_ and you should see `Connection test successful` 🎉
 
 ## Kuddos
 
-_kuddos to the open source project by [@justmeandopensource](https://github.com/justmeandopensource/kubernetes) that eased the whole bootstrap process_
+_kuddos to the open source project by [@justmeandopensource](https://github.com/justmeandopensource/kubernetes) that eased the bootstrap process_ 🙌

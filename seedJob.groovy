@@ -1,8 +1,8 @@
-CREDENTIALS_ID = '<<credentials_id>>'
+CREDENTIALS_ID = '<<CREDENTIALS ID>>'
 
 [
-        [title: 'title', repo: 'git@github.com:sergiomartins8/<<repo>>.git', jenkinsfile: 'Jenkinsfile'],
-        [title: 'title', repo: 'git@github.com:sergiomartins8/<<repo>>.git', jenkinsfile: 'Jenkinsfile', pollScm: 'H/5 * * * *']
+        [title: 'title1', repo: 'git@github.com:sergiomartins8/<<repo>>.git', jenkinsfile: 'Jenkinsfile'],
+        [title: 'title2', repo: 'git@github.com:sergiomartins8/<<repo>>.git', jenkinsfile: 'Jenkinsfile', pollScm: 'H/5 * * * *']
 ].each { job ->
     pipelineJob(job.title) {
         properties {
