@@ -2,7 +2,7 @@ jenkins:
   master:
     componentName: jenkins-master
     image: "jenkins/jenkins"
-    imageTag: "2.229"
+    imageTag: "2.230"
     imagePullPolicy: "Always"
     component: "jenkins-master"
     useSecurity: true
@@ -23,94 +23,100 @@ jenkins:
       pluginVersion: "1.36"
 
     installPlugins:
-      - blueocean-bitbucket-pipeline
-      - branch-api
-      - bouncycastle-api
-      - job-dsl
-      - workflow-basic-steps
-      - pipeline-rest-api
-      - blueocean-pipeline-scm-api
-      - token-macro
-      - display-url-api
-      - git-server
-      - bitbucket-oauth
-      - configuration-as-code-support
-      - bitbucket
-      - handy-uri-templates-2-api
-      - jsch
-      - blueocean-rest-impl
-      - cloudbees-folder
-      - ssh-agent
-      - lockable-resources
-      - pipeline-model-declarative-agent
-      - kubernetes-cli
-      - workflow-multibranch
-      - credentials
-      - mailer
-      - blueocean-pipeline-api-impl
-      - junit
-      - blueocean-jwt
-      - ace-editor
-      - cloudbees-bitbucket-branch-source
-      - pipeline-build-step
-      - apache-httpcomponents-client-4-api
-      - jackson2-api
-      - plain-credentials
-      - blueocean-commons
-      - config-file-provider
-      - authentication-tokens
-      - workflow-api
-      - durable-task
-      - amazon-ecr
-      - mercurial
-      - kubernetes-credentials
-      - workflow-step-api
-      - command-launcher
-      - kubernetes
-      - handlebars
-      - pipeline-milestone-step
-      - pipeline-stage-tags-metadata
-      - git-client
-      - github-api
-      - github-branch-source
-      - jquery-detached
-      - scm-api
-      - workflow-aggregator
-      - pipeline-input-step
-      - matrix-project
-      - variant
-      - aws-java-sdk
-      - blueocean-rest
-      - workflow-cps-global-lib
-      - github
-      - pipeline-model-api
-      - jenkins-design-language
-      - configuration-as-code
-      - structs
-      - jdk-tool
-      - workflow-durable-task-step
-      - momentjs
-      - pubsub-light
-      - ssh-credentials
-      - git
-      - workflow-scm-step
-      - workflow-job
-      - pipeline-model-definition
-      - script-security
-      - pipeline-graph-analysis
-      - favorite
-      - pipeline-model-extensions
-      - pipeline-stage-view
-      - blueocean-web
-      - docker-workflow
-      - blueocean-core-js
-      - workflow-cps
-      - credentials-binding
-      - workflow-support
-      - aws-credentials
-      - htmlpublisher
-      - pipeline-stage-step
-      - docker-commons
+      - blueocean-bitbucket-pipeline:1.22.0
+      - branch-api:2.5.5
+      - bouncycastle-api:2.18
+      - google-oauth-plugin:1.0.0
+      - job-dsl:1.77
+      - workflow-basic-steps:2.19
+      - pipeline-rest-api:2.13
+      - blueocean-pipeline-scm-api:1.22.0
+      - token-macro:2.12
+      - display-url-api:2.3.2
+      - git-server:1.9
+      - bitbucket-oauth:0.10
+      - configuration-as-code-support:1.18
+      - bitbucket:1.1.11
+      - handy-uri-templates-2-api:2.1.8-1.0
+      - jsch:0.1.55.2
+      - blueocean-rest-impl:1.22.0
+      - cloudbees-folder:6.12
+      - ssh-agent:1.19
+      - testng-plugin:1.15
+      - lockable-resources:2.7
+      - pipeline-model-declarative-agent:1.1.1
+      - kubernetes-cli:1.8.2
+      - workflow-multibranch:2.21
+      - credentials:2.3.5
+      - mailer:1.30
+      - blueocean-pipeline-api-impl:1.22.0
+      - junit:1.28
+      - blueocean-jwt:1.22.0
+      - ace-editor:1.1
+      - cloudbees-bitbucket-branch-source:2.7.0
+      - pipeline-build-step:2.12
+      - apache-httpcomponents-client-4-api:4.5.10-2.0
+      - jackson2-api:2.10.3
+      - plain-credentials:1.7
+      - blueocean-commons:1.22.0
+      - config-file-provider:3.6.3
+      - authentication-tokens:1.3
+      - workflow-api:2.40
+      - durable-task:1.34
+      - amazon-ecr:1.6
+      - mercurial:2.9
+      - kubernetes-credentials:0.6.2
+      - workflow-step-api:2.22
+      - command-launcher:1.4
+      - kubernetes:1.25.2
+      - handlebars:1.1.1
+      - pipeline-milestone-step:1.3.1
+      - pipeline-stage-tags-metadata:1.6.0
+      - git-client:3.2.1
+      - github-api:1.110
+      - github-branch-source:2.6.0
+      - jquery-detached:1.2.1
+      - scm-api:2.6.3
+      - trilead-api:1.0.6
+      - workflow-aggregator:2.6
+      - pipeline-input-step:2.11
+      - matrix-project:1.14
+      - variant:1.3
+      - aws-java-sdk:1.11.723
+      - blueocean-rest:1.22.0
+      - workflow-cps-global-lib:2.16
+      - github:1.29.5
+      - pipeline-model-api:1.6.0
+      - jenkins-design-language:1.22.0
+      - kubernetes-client-api:4.8.0-1
+      - configuration-as-code:1.38
+      - structs:1.20
+      - jdk-tool:1.4
+      - workflow-durable-task-step:2.35
+      - momentjs:1.1.1
+      - pubsub-light:1.13
+      - ssh-credentials:1.18.1
+      - git:4.2.2
+      - workflow-scm-step:2.10
+      - oauth-credentials:0.4
+      - workflow-job:2.38
+      - pipeline-model-definition:1.6.0
+      - script-security:1.71
+      - pipeline-graph-analysis:1.10
+      - favorite:2.3.2
+      - pipeline-model-extensions:1.6.0
+      - pipeline-stage-view:2.13
+      - blueocean-web:1.22.0
+      - docker-workflow:1.23
+      - blueocean-core-js:1.22.0
+      - workflow-cps:2.80
+      - credentials-binding:1.21
+      - workflow-support:3.4
+      - aws-credentials:1.28
+      - htmlpublisher:1.22
+      - pipeline-stage-step:2.3
+      - docker-commons:1.16
+      - snakeyaml-api:1.26.2
 
   agent:
     image: "docker.io/sergiomartins8/base-build"
@@ -143,7 +149,7 @@ jenkins:
   rbac:
     create: true
 
-  overwriteJobs: true
+  overwriteJobs: false
 
 job:
   title: seed-job
