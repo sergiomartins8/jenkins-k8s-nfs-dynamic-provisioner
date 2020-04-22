@@ -20,9 +20,9 @@
 ##### Then
 
 1. Go to `/vagrant-provisioning` and `$ vagrant up`
-1. Setup the dynamic nfs provisioner (`$ kubectl create -f nfs-provisioner/`)
 1. `$ mkdir ~/.kube`
 1. `$ scp root@kmaster.example.com:/etc/kubernetes/admin.conf $HOME/.kube/config` using `kubeadmin` as the password
+1. Setup the dynamic nfs provisioner (`$ kubectl create -f nfs-provisioner/`)
 
 ## Deploy jenkins
 
