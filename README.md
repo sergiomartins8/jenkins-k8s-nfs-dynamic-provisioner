@@ -36,7 +36,7 @@ $ helm dependency update
 
 #### Upgrade _(install)_ jenkins
 
-Execute the following command on the root of the project `nap-jenkins`
+Execute the following command on the root of the project
 ```shell script
 $ helm upgrade --install --namespace jenkins jenkins-chart ./jenkins-chart
 ```
