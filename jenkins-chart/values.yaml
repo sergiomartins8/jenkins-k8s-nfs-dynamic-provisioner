@@ -119,7 +119,7 @@ jenkins:
       - snakeyaml-api:1.26.4
 
   agent:
-    image: "docker.io/sergiomartins8/base-build"
+    image: "docker.io/sergiomartins8/jenkins-slave-base"
     tag: "1.0"
     componentName: "jenkins-slave"
     volumes:
